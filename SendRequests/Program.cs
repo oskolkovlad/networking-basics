@@ -35,7 +35,7 @@ namespace SendRequests
                 using (var sr = new StreamReader(stream))
                 {
                     var line = "";
-                    while((line = sr.ReadLine()) != null)
+                    while ((line = sr.ReadLine()) != null)
                     {
                         Console.WriteLine(line);
                     }
@@ -54,12 +54,16 @@ namespace SendRequests
 
 
             //******************************************************************************************************************************************//
-            
-            
+
+
             WedRequestResponse();
             HttpRequestResponse();
 
-            
+
+            //SendDatainRequestPost();
+            //SendDatainRequestGet();
+
+
             //******************************************************************************************************************************************//
 
 
@@ -99,13 +103,13 @@ namespace SendRequests
             Console.WriteLine("Запрос выполнен...\n");
         }
 
-        private static async void HttpRequestResponse()
+        private static async Task HttpRequestResponse()
         {
             // Для получения информации, специфичной для протокола HTTP, используются два класса:
             // HttpWebRequest и HttpWebResponse, которые наследуются соответственно от WebRequest и WebResponse.
 
-            HttpWebRequest request = (HttpWebRequest) WebRequest.Create("https://www.w3.org/TR/PNG/iso_8859-1.txt");
-            HttpWebResponse response = (HttpWebResponse) await request.GetResponseAsync();
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://www.w3.org/TR/PNG/iso_8859-1.txt");
+            HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync();
 
             using (Stream stream = response.GetResponseStream())
             {
@@ -120,7 +124,7 @@ namespace SendRequests
                     }
                 }
             }
-                        
+
             Console.WriteLine("Запрос выполнен...\n");
 
 
@@ -143,11 +147,61 @@ namespace SendRequests
 
 
             // Установка логина и пароля в запросе. В данном случае используется базовая HTTP-аутентификация.
-            HttpWebRequest request1 = (HttpWebRequest) WebRequest.Create("http://somesite.com/auth");
+            HttpWebRequest request1 = (HttpWebRequest)WebRequest.Create("http://somesite.com/auth");
             request1.Credentials = new NetworkCredential("login", "password");
             //HttpWebResponse response1 = (HttpWebResponse) await request1.GetResponseAsync();
 
             //response1.Close();
+        }
+
+
+        private static async Task SendDatainRequestPost()
+        {
+            WebRequest request = WebRequest.Create("http://localhost:5374/Home/PostData");
+            request.Method = "POST"; // для отправки используется метод Post
+
+            // данные для отправки
+            string data = "sName=Иван Иванов&age=31";
+            // преобразуем данные в массив байтов   
+            byte[] dataBytes = System.Text.Encoding.Default.GetBytes(data);
+
+            // устанавливаем тип содержимого - параметр ContentType
+            request.ContentType = "application/x-www-form-urlencoded";
+            // Устанавливаем заголовок Content-Length запроса - свойство ContentLength
+            request.ContentLength = dataBytes.Length;
+
+            //записываем данные в поток запроса 
+            using (Stream stream = request.GetRequestStream())
+            {
+                stream.Write(dataBytes, 0, dataBytes.Length);
+            }
+
+            WebResponse response = await request.GetResponseAsync();
+
+            using (Stream stream1 = response.GetResponseStream())
+            {
+                using (StreamReader sr = new StreamReader(stream1))
+                {
+                    Console.WriteLine(sr.ReadToEnd());
+                }
+            }
+            response.Close();
+            Console.WriteLine("Запрос выполнен...");
+        }
+
+        private static async Task SendDatainRequestGet()
+        {
+            WebRequest request = WebRequest.Create("http://localhost:5374/Home/PostData?sName=ИванИванов&age=31");
+            WebResponse response = await request.GetResponseAsync();
+
+            using (Stream stream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    Console.WriteLine(reader.ReadToEnd());
+                }
+            }
+            response.Close();
         }
     }
 }
