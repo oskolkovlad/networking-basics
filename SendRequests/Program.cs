@@ -57,11 +57,11 @@ namespace SendRequests
 
 
             WedRequestResponse();
-            HttpRequestResponse();
+            HttpRequestResponse().GetAwaiter();
 
 
-            //SendDatainRequestPost();
-            //SendDatainRequestGet();
+            SendDatainRequestPost().GetAwaiter();
+            SendDatainRequestGet().GetAwaiter();
 
 
             //******************************************************************************************************************************************//
@@ -157,51 +157,80 @@ namespace SendRequests
 
         private static async Task SendDatainRequestPost()
         {
-            WebRequest request = WebRequest.Create("http://localhost:5374/Home/PostData");
-            request.Method = "POST"; // для отправки используется метод Post
-
-            // данные для отправки
-            string data = "sName=Иван Иванов&age=31";
-            // преобразуем данные в массив байтов   
-            byte[] dataBytes = System.Text.Encoding.Default.GetBytes(data);
-
-            // устанавливаем тип содержимого - параметр ContentType
-            request.ContentType = "application/x-www-form-urlencoded";
-            // Устанавливаем заголовок Content-Length запроса - свойство ContentLength
-            request.ContentLength = dataBytes.Length;
-
-            //записываем данные в поток запроса 
-            using (Stream stream = request.GetRequestStream())
+            try
             {
-                stream.Write(dataBytes, 0, dataBytes.Length);
-            }
+                WebRequest request = WebRequest.Create("http://localhost:5374/Home/PostData");
+                request.Method = "POST"; // для отправки используется метод Post
 
-            WebResponse response = await request.GetResponseAsync();
+                // данные для отправки
+                string data = "sName=Иван Иванов&age=31";
+                // преобразуем данные в массив байтов   
+                byte[] dataBytes = System.Text.Encoding.Default.GetBytes(data);
 
-            using (Stream stream1 = response.GetResponseStream())
-            {
-                using (StreamReader sr = new StreamReader(stream1))
+                // устанавливаем тип содержимого - параметр ContentType
+                request.ContentType = "application/x-www-form-urlencoded";
+                // Устанавливаем заголовок Content-Length запроса - свойство ContentLength
+                request.ContentLength = dataBytes.Length;
+
+                //записываем данные в поток запроса 
+                using (Stream stream = request.GetRequestStream())
                 {
-                    Console.WriteLine(sr.ReadToEnd());
+                    stream.Write(dataBytes, 0, dataBytes.Length);
+                }
+
+                WebResponse response = await request.GetResponseAsync();
+
+                using (Stream stream1 = response.GetResponseStream())
+                {
+                    using (StreamReader sr = new StreamReader(stream1))
+                    {
+                        Console.WriteLine(sr.ReadToEnd());
+                    }
+                }
+                response.Close();
+                Console.WriteLine("Запрос выполнен...POST");
+            }
+            catch(WebException ex)
+            {
+                // получаем статус исключения
+                WebExceptionStatus status = ex.Status;
+
+                if (status == WebExceptionStatus.UnknownError)
+                {
+                    HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
+                    Console.WriteLine("Статусный код ошибки: {0} - {1}", (int)httpResponse.StatusCode, httpResponse.StatusCode);
                 }
             }
-            response.Close();
-            Console.WriteLine("Запрос выполнен...");
         }
 
         private static async Task SendDatainRequestGet()
         {
-            WebRequest request = WebRequest.Create("http://localhost:5374/Home/PostData?sName=ИванИванов&age=31");
-            WebResponse response = await request.GetResponseAsync();
-
-            using (Stream stream = response.GetResponseStream())
+            try
             {
-                using (StreamReader reader = new StreamReader(stream))
+                WebRequest request = WebRequest.Create("http://localhost:5374/Home/PostData?sName=ИванИванов&age=31");
+                WebResponse response = await request.GetResponseAsync();
+
+                using (Stream stream = response.GetResponseStream())
                 {
-                    Console.WriteLine(reader.ReadToEnd());
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        Console.WriteLine(reader.ReadToEnd());
+                    }
+                }
+                response.Close();
+                Console.WriteLine("Запрос выполнен...GET");
+            }
+            catch (WebException ex)
+            {
+                // получаем статус исключения
+                WebExceptionStatus status = ex.Status;
+
+                if (status == WebExceptionStatus.UnknownError)
+                {
+                    HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
+                    Console.WriteLine("Статусный код ошибки: {0} - {1}", (int)httpResponse.StatusCode, httpResponse.StatusCode);
                 }
             }
-            response.Close();
         }
     }
 }
