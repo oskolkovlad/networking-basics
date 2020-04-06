@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1_Addresses", "Addresses\1_Addresses.csproj", "{FE79DC69-2BEA-47DB-B6E0-B8848A46122B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1_Addresses", "Addresses\1_Addresses.csproj", "{FE79DC69-2BEA-47DB-B6E0-B8848A46122B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2_SendRequests", "SendRequests\2_SendRequests.csproj", "{876165DA-2EFE-4E25-8946-E127BFE4A552}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2_SendRequests", "SendRequests\2_SendRequests.csproj", "{876165DA-2EFE-4E25-8946-E127BFE4A552}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3_1_TCPonSockets_Server", "TCPonSockets\3_1_TCPonSockets_Server.csproj", "{C4616B4D-A2FF-4700-8516-CC3EFAE3CB58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3_2_TCPonSockets_Client", "TCPonSockets_Client\3_2_TCPonSockets_Client.csproj", "{C7CB6822-C1EF-4801-BAD5-F077950F6108}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDPonSockets", "UDPonSockets\UDPonSockets.csproj", "{DF4899B7-A9F4-4CFF-8171-C58788EE4E6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{876165DA-2EFE-4E25-8946-E127BFE4A552}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{876165DA-2EFE-4E25-8946-E127BFE4A552}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{876165DA-2EFE-4E25-8946-E127BFE4A552}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4616B4D-A2FF-4700-8516-CC3EFAE3CB58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4616B4D-A2FF-4700-8516-CC3EFAE3CB58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4616B4D-A2FF-4700-8516-CC3EFAE3CB58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4616B4D-A2FF-4700-8516-CC3EFAE3CB58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7CB6822-C1EF-4801-BAD5-F077950F6108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7CB6822-C1EF-4801-BAD5-F077950F6108}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7CB6822-C1EF-4801-BAD5-F077950F6108}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7CB6822-C1EF-4801-BAD5-F077950F6108}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF4899B7-A9F4-4CFF-8171-C58788EE4E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF4899B7-A9F4-4CFF-8171-C58788EE4E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF4899B7-A9F4-4CFF-8171-C58788EE4E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF4899B7-A9F4-4CFF-8171-C58788EE4E6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
